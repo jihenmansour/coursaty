@@ -1,0 +1,66 @@
+﻿@model CoursesApp.Models.CoursesListModel
+
+<div class="container px-4 px-lg-5">
+    <!-- Heading Row-->
+    <div class="row gx-4 gx-lg-5 align-items-center my-5">
+        <div class="col-lg-5">
+
+        </div>
+    </div>
+
+    @using (Html.BeginForm("Index", "Course", FormMethod.Get, new { @class = "flex-row align-items-center flex-wrap " }))
+    {
+        <div class="row mb-5">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0 select">
+                @*<input type="text" class="form-control form-control-lg" placeholder="Job title, Company...">*@
+                @Html.TextBoxFor(m => m.Query, new { @class = "form-control form-control-lg", placeholder = "Course..." })
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+
+                @Html.DropDownListFor(m => m.TrainerId, Model.Trainers, "Select Trainer", new { @class = " selectpicker", data_style = "btn-white btn-lg border border-2", data_width = "100%", data_live_search = "true" })
+
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+
+                @Html.DropDownListFor(m => m.CategoryId, Model.Categories, "Select Category", new { @class = "selectpicker", id = "job-Type", data_style = "btn-white btn-lg border border-2", data_width = "100%", data_live_search = "true" })
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                <button type="submit" value="Search" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Search Course</button>
+            </div>
+        </div>
+    }
+
+
+
+    @if (Model != null && Model.Courses.Count() > 0)
+    {
+        foreach (var courseItem in Model.Courses)
+        {
+            <div class="col-lg-4 mb-5">
+                <div class="card h-100 shadow border-0">
+                    <div class="card-body p-4">
+                        <img class="card-img-top" src="~/Uploads/Courses/@courseItem.Image_ID" alt="..." />
+                        <h5 class="card-title mb-3">@courseItem.Name</h5>
+                        <p class="card-text mb-0">@courseItem.Description</p>
+                    </div>
+                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0 align-items-center">
+                        @Html.ActionLink("View course detail", "Info", "Course", new { id = courseItem.Course_Id },
+                new { @class = "slide btn btn-outline-primary btn-lg px-4" })
+
+                    </div>
+                </div>
+            </div>
+
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="4">
+                <div class="alert alert-danger">
+                    There is no Courses found!
+                </div>
+            </td>
+        </tr>
+    }
+</div>

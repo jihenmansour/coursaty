@@ -1,0 +1,91 @@
+﻿@model IEnumerable<CoursesApp.Models.TrainerModel>
+
+@{
+    ViewBag.Title = "Trainers";
+}
+
+
+<h2>Trainers</h2>
+<hr />
+
+<p>
+    @Html.ActionLink("Add New", "Create")
+</p>
+
+
+<div class="table-responsive">
+    <table class="table table-striped custom-table">
+        <thead>
+            <tr class="active">
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Website</th>
+                <th scope="col">Creation Date</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr scope="row">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Website)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Creation_Date)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Courses", "Index", "Course", new { trainerId = item.ID },
+                                                new { @class = "btn btn-primary" })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal_@item.ID" data-id="@item.ID">
+                            Delete
+                        </button>
+
+
+                        <!-- Modal -->
+                            <div class="modal fade" id="exampleModal_@item.ID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label">Are you sure you want to remove @item.Name</label>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            @using (Html.BeginForm("DeleteConfirmed", "Trainer", new { Id = item.ID, Email = item.Email }, FormMethod.Post, null))
+                                            {
+                                                <input type="submit" value="Delete" class="btn btn-danger" />
+                                            }
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>

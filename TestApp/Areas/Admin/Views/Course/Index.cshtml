@@ -1,0 +1,123 @@
+﻿@model CoursesApp.Models.CoursesListModel
+
+@{
+    ViewBag.Title = "Courses";
+}
+
+<h2>Courses</h2>
+<hr />
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+
+@using (Html.BeginForm("Index", "Course", FormMethod.Get, new { @class = "flex-row align-items-center flex-wrap " }))
+{
+    <div class="row mb-5">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0 select">
+            @*<input type="text" class="form-control form-control-lg" placeholder="Job title, Company...">*@
+            @Html.TextBoxFor(m => m.Query, new { @class = "form-control form-control-lg", placeholder = "Course..." })
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+
+            @Html.DropDownListFor(m => m.TrainerId, Model.Trainers, "Select Trainer", new { @class = " selectpicker", data_style = "btn-white btn-lg border border-2", data_width = "100%", data_live_search = "true" })
+
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+
+            @Html.DropDownListFor(m => m.CategoryId, Model.Categories, "Select Category", new { @class = "selectpicker", id = "job-Type", data_style = "btn-white btn-lg border border-2", data_width = "100%", data_live_search = "true" })
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+            <button type="submit" value="Search" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Search Course</button>
+        </div>
+    </div>
+}
+
+
+
+
+<br />
+
+
+
+<div class="table-responsive">
+    <table class="table table-striped custom-table">
+        <thead>
+            <tr class="active">
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">Creation Date</th>
+                <th scope="col">Trainer Name</th>
+                <th scope="col">Category Name</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Courses)
+            {
+                <tr scope="row">
+                    <td>
+                        <img src="~/Uploads/Courses/@item.Image_ID" style="width: 75px" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Creation_Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TrainerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category_Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Trainees", "Index", "Trainee", new { cId = item.Course_Id },
+                                                new { @class = "btn btn-primary" })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Course_Id })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Contents", "Index", "CourseUnits", new { courseId = item.Course_Id }, new { @class = "btn btn-primary" })
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal_@item.Course_Id" data-id="@item.Course_Id">
+                            Delete
+                        </button>
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal_@item.Course_Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Are you sure you want to remove @item.Name</label>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        @using (Html.BeginForm("DeleteConfirmed", "Course", new { Id = item.Course_Id }, FormMethod.Post, null))
+                                        {
+                                            <input type="submit" value="Delete" class="btn btn-danger" />
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+            }
+
+        </tbody>
+    </table>
+</div>
+
+

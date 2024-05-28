@@ -1,0 +1,31 @@
+﻿@model CoursesApp.Models.CoursesListModel
+
+<div class="section-title">
+    <h2>Our Categories</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.</p>
+</div>
+
+<div class="container px-4 px-lg-5">
+    <!-- Content Row-->
+    <div class="row gx-4 gx-lg-5">
+        @foreach (var categoryItem in Model.categories)
+        {
+
+
+            <div class="col-lg-4 mb-5">
+                <div class="card h-100 shadow border-0">
+                    <div class="card-body p-4">
+                        <h5 class="card-title mb-3">@categoryItem.Name</h5>
+                        <p class="card-text mb-0">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0 align-items-center">
+                                @Html.ActionLink("View All Courses", "Index", "Course", new { categoryId = categoryItem.Id },
+                        new { @class = "slide btn btn-outline-primary btn-lg px-4" })
+                      
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+        </div>
+
